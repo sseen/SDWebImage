@@ -48,6 +48,10 @@
     return nil;
 }
 
+- (BOOL)cancel:(id)token {
+    return YES;
+}
+
 @end
 
 
@@ -61,6 +65,7 @@
 - (void)test01ThatSharedDownloaderIsNotEqualToInitDownloader {
     SDWebImageDownloader *downloader = [[SDWebImageDownloader alloc] init];
     expect(downloader).toNot.equal([SDWebImageDownloader sharedDownloader]);
+    [downloader invalidateSessionAndCancel:YES];
 }
 
 - (void)test02ThatByDefaultDownloaderSetsTheAcceptHTTPHeader {
@@ -185,7 +190,7 @@
     [[SDWebImageDownloader sharedDownloader] cancel:token];
     
     // doesn't cancel immediately - since it uses dispatch async
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, kMinDelayNanosecond), dispatch_get_main_queue(), ^{
         expect([SDWebImageDownloader sharedDownloader].currentDownloadCount).to.equal(0);
         [expectation fulfill];
     });
@@ -377,6 +382,7 @@
     }];
     
     [self waitForExpectationsWithCommonTimeout];
+    [downloader invalidateSessionAndCancel:YES];
 }
 
 @end

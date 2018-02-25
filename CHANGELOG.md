@@ -1,3 +1,77 @@
+## [4.3.0 - Image Progress & Transition, on Jan 31th, 2018](https://github.com/rs/SDWebImage/releases/tag/4.3.0)
+See [all tickets marked for the 4.3.0 release](https://github.com/rs/SDWebImage/milestone/21)
+
+#### Features
+- View Category
+	- Add NSProgress API in `sd_imageProgress` property represent the image loading progress, this allow user add KVO on it for complicated logic #2172
+	- Add Image Transition API in `sd_imageTransition` property support custom image transition after image load finished #2182
+	- Add NSButton WebCache category on macOS #2183
+- Cache
+	- Add query cache options for query method #2162
+	- Add sync version API diskImageDataExistsWithKey and diskCacheWritingOptions #2190
+- Manager
+	- Add a option SDWebImageFromCacheOnly to load the image from cache only and prevent network #2186
+
+#### Fixes
+- Coder
+	- Fix GIF loopCount when the GIF image has no Netscape 2.0 loop extension #2155
+- View Category
+	- Fix the issue that `setAnimationImagesWithURLs` weak reference may dealloc before the animated images was set #2178
+- Cache
+	- Fix the getSize method which use the default file manager instead of current file manager #2180
+- Manager
+	- Fix the leak of runningOperations in race condition #2177 (Manager)
+- Downloader
+	- Ensure all the session delegate completionHandler called and fix the leak when response error code below iOS 10 #2197
+	- Fix dispatch_sync blocking the main queue on race condition #2184
+	- Fix the thread-safe issue for headers mutable dictionary in downlaoder #2204
+- Download Operation
+	- Fix that 0 pixels error should be used when width OR height is zero but not AND #2160
+	- Use the synchronized to access NSURLCache and try fix the potential thread-safe problem #2174
+- Prefetcher
+	- Fix the issue that prefetcher will cause stack overflow when the input urls list is huge because of recursion function call #2196
+
+#### Performance
+- View Category
+	- Use the associate object to store the FLAnimatedImage into memory cache, avoid blinking or UIView transaction #2181
+
+#### Improvements
+- Cache
+	- Remove the extra memory warning notification for AutoPurgeCache #2153
+- Downloader
+	- Avoid user accidentally invalidates the session used in shared downloader #2154
+- Project
+	- Update the spec file to define the dependency version for libwebp #2169
+
+## [4.2.3 - 4.2 Patch, on Nov 30th, 2017](https://github.com/rs/SDWebImage/releases/tag/4.2.3)
+See [all tickets marked for the 4.2.3 release](https://github.com/rs/SDWebImage/milestone/20)
+
+#### Features
+- Add a public API to allow user to invalidate URLSession used in SDWebImageDownloader to avoid memory leak on non-singleton instance #2116
+- Add a SDWebImageExternalCustomManagerKey context arguments to allow user to custom image manager for UIView category #2115
+- Allow custom SDWebImageDownloaderOperation to handle HTTP redirect #2123
+
+#### Fixes
+- Fix that FLAnimatedImageView blink and flash when collectionView reload #2102 #2106
+- Fix that SDWebImagePrefetcher startPrefetchingAtIndex accident crash #2110 #2111
+- Fix that Progressive WebP decoding not showing on iOS 11.2 #2130 #2131
+- Fix crash in method implementation of sd_cancelImageLoadOperationWithKey, and avoid retain of operation #2113 #2125 #2132
+- Fix Clang Static Analyzer warning for number nil check from Xcode 9.2 #2142 #2143
+
+#### Improvements
+- Adopt the current requirement, change ImageIO coder's canDecodeFromHEIC to actual implementation #2146 #2138
+- When store image with no data for SDImageCache, check whether it contains alpha to use PNG or JPEG format #2136
+
+## [4.2.2 - 4.2 Patch, on Nov 7th, 2017](https://github.com/rs/SDWebImage/releases/tag/4.2.2)
+See [all tickets marked for the 4.2.2 release](https://github.com/rs/SDWebImage/milestone/19)
+
+#### Features
+- Update our iOS demo to modern way, add a `UIProgressView` to show image download progress #2096
+
+#### Fixes
+- Fix that completion block and set image block are called asynchronously for `UIView+WebCache` #2093 #2097 #2092
+- Fix WebP progressive decoding may do extra calculate #2095
+
 ## [4.2.1 - 4.2 Patch, on Oct 31st, 2017](https://github.com/rs/SDWebImage/releases/tag/4.2.1)
 See [all tickets marked for the 4.2.1 release](https://github.com/rs/SDWebImage/milestone/18)
 
